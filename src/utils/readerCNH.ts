@@ -52,8 +52,11 @@ export async function ReaderCNH(file: Buffer): Promise<CnhData> {
     for (const img of images) {
       const { data } = await worker.recognize(Buffer.from(img.data!));
 
-      result.cpf ??= extractCpf(data.text);
-      result.nome ??= extractNome(data.text);
+      const cpf = extractCpf(data.text);
+      if (cpf) result.cpf ??= cpf;
+
+      const nome = extractNome(data.text);
+      if (nome) result.nome ??= nome;
 
       if (result.cpf && result.nome) break;
     }

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ct-e-automation-front",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:\\Users\\stenio\\project\\ct-e-automation-front", "run", "start:react"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

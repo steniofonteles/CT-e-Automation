@@ -12,9 +12,13 @@ import { DriverService } from "./service/driver.js";
 import { TruckController } from "./controller/truck.js";
 import { TruckService } from "./service/truck.js";
 import { EgsAuthController } from "./controller/egsAuth.js";
+import { CteSubmitController } from "./controller/cteSubmit.js";
+import { CteSubmitService } from "./service/cteSubmit.js";
 
 const authService = new AuthService();
 const egsAuth = new EgsAuthController();
+const cteSubmitService = new CteSubmitService();
+const cteSubmit = new CteSubmitController(cteSubmitService);
 const authRoutes = new AuthController(authService);
 const company = new CompanyController();
 const cte = new CteController();
@@ -94,6 +98,12 @@ app.post(
   "/egs/login",
   IsLogged,
   async (req, res) => await egsAuth.login(req, res),
+);
+
+app.post(
+  "/admin/cte",
+  IsLogged,
+  async (req, res) => await cteSubmit.criar(req, res),
 );
 
 app.listen(3000, () => {
