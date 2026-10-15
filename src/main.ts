@@ -106,6 +106,8 @@ app.post(
   async (req, res) => await cteSubmit.criar(req, res),
 );
 
-app.listen(3000, () => {
-  console.log("system running in port http://localhost:3000");
+const PORT = Number(process.env.PORT) || 3000;
+
+app.listen(PORT, () => {
+  console.log(`system running in port ${PORT}`);
 });
