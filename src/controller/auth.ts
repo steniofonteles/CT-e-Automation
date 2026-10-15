@@ -28,6 +28,11 @@ export class AuthController {
   }
 
   async register(req: Request, res: Response) {
+    if (process.env.ALLOW_REGISTER !== "true") {
+      res.status(403).json({ message: "REGISTRATION DISABLED" });
+      return;
+    }
+
     const validade = registerDTO.safeParse(req.body);
 
     if (validade.error) {
