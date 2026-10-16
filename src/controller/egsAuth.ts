@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { Request, Response } from "express";
 import { egsLoginSchema } from "../DTO/egsAuth.js";
 import { egsLogin } from "../service/egsAuth.js";
@@ -19,6 +20,17 @@ export class EgsAuthController {
       const result = await egsLogin(chaveAcesso, username, password);
       res.json(result);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("[egs/login] falha", {
+          url: error.config?.url,
+          status: error.response?.status,
+          data: error.response?.data,
+          code: error.code,
+          message: error.message,
+        });
+      } else {
+        console.error("[egs/login] falha", error);
+      }
       res.status(401).json({ message: "Falha na autenticação com o EGS" });
     }
   }
