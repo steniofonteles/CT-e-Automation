@@ -22,9 +22,12 @@ export class AuthController {
     }
     const { email, password } = validade.data;
 
-    const token = await this.service.login(email, password);
-
-    res.send({ token }).status(200);
+    try {
+      const token = await this.service.login(email, password);
+      res.status(200).json({ token });
+    } catch {
+      res.status(401).json({ message: "INVALID EMAIL OR PASSWORD" });
+    }
   }
 
   async register(req: Request, res: Response) {
@@ -48,7 +51,11 @@ export class AuthController {
       return;
     }
     const { email, password } = validade.data;
-    await this.service.register(email, password);
-    res.send("SUCCESSFULLY REGISTERED").status(201);
+    try {
+      await this.service.register(email, password);
+      res.status(201).send("SUCCESSFULLY REGISTERED");
+    } catch (error: any) {
+      res.status(409).json({ message: error.message });
+    }
   }
 }
