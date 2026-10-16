@@ -30,6 +30,12 @@ export class CteController {
       throw new Error("FILE NOT FOUND");
     }
     const numero = await ReaderANTT(file);
+    if (!numero) {
+      res
+        .status(422)
+        .json({ message: "Número da ANTT não encontrado no PDF" });
+      return;
+    }
     res.json(numero);
   }
 
