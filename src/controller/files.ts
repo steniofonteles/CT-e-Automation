@@ -1,6 +1,5 @@
 import type { Request, Response } from "express";
 import { ReaderCRLV } from "../utils/readerCRLV.js";
-import ReaderXML from "../utils/readerXML.js";
 import { ReaderANTT } from "../utils/readerANTT.js";
 import { ReaderCNH } from "../utils/readerCNH.js";
 
@@ -12,15 +11,6 @@ export class CteController {
     }
     const text = await ReaderCRLV(file);
     console.log(text);
-    res.json(text);
-  }
-
-  async xml(req: Request, res: Response) {
-    const file = req.file?.buffer;
-    if (!file) {
-      throw new Error("FILE NOT FOUND");
-    }
-    const text = await ReaderXML(file);
     res.json(text);
   }
 
