@@ -3,7 +3,7 @@ import { ReaderCRLV } from "../utils/readerCRLV.js";
 import { ReaderANTT } from "../utils/readerANTT.js";
 import { ReaderCNH } from "../utils/readerCNH.js";
 
-export class CteController {
+export class DocumentController {
   async crlv(req: Request, res: Response) {
     const file = req.file?.buffer;
     if (!file) {

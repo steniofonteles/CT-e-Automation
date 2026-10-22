@@ -6,26 +6,29 @@ import { env } from "../env.js";
 export function IsLogged(req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
   if (!authorization) {
-    res
-      .json({
-        statusCode: 401,
-        message: "MISSING AUTHORIZATION TOKEN",
-      })
-      .status(401);
+    res.status(401).json({
+      statusCode: 401,
+      message: "MISSING AUTHORIZATION TOKEN",
+    });
     return;
   }
-  const [type, token] = authorization?.split(" ");
+  const [type, token] = authorization.split(" ");
   if (type !== "Bearer" || !token) {
-    res
-      .json({
-        statusbar: 401,
-        message: "INVALID AUTHORIZATION TOKEN",
-      })
-      .status(401);
+    res.status(401).json({
+      statusCode: 401,
+      message: "INVALID AUTHORIZATION TOKEN",
+    });
     return;
   }
 
-  const decoded = jsonwebtoken.verify(token, env.JWT_TOKEN) as jwtPayload;
-  req.user === decoded;
+  try {
+    jsonwebtoken.verify(token, env.JWT_TOKEN) as jwtPayload;
+  } catch {
+    res.status(401).json({
+      statusCode: 401,
+      message: "INVALID AUTHORIZATION TOKEN",
+    });
+    return;
+  }
   next();
 }
