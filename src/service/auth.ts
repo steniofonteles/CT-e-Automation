@@ -7,7 +7,7 @@ export class AuthService {
   async register(email: string, password: string) {
     const user = (await read()).users.find((u) => u.email === email);
     if (user) {
-      throw new Error("USER ALREADY EXIST");
+      throw new Error("Usuário já cadastrado");
     }
     const userId = Math.random().toString();
 
@@ -23,13 +23,13 @@ export class AuthService {
     const user = (await read()).users.find((u) => u.email === email);
 
     if (!user) {
-      throw new Error("INVALID EMAIL OR PASSWORD ");
+      throw new Error("E-mail ou senha inválidos");
     }
 
     const hashCompare = await bcrypt.compare(password, user.password);
 
     if (!hashCompare) {
-      throw new Error("INVALID EMAIL OR PASSWORD");
+      throw new Error("E-mail ou senha inválidos");
     }
 
     const token = JsonWebToken.sign(

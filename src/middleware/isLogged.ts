@@ -8,7 +8,7 @@ export function IsLogged(req: Request, res: Response, next: NextFunction) {
   if (!authorization) {
     res.status(401).json({
       statusCode: 401,
-      message: "MISSING AUTHORIZATION TOKEN",
+      message: "Token de acesso não informado. Faça login novamente.",
     });
     return;
   }
@@ -16,7 +16,7 @@ export function IsLogged(req: Request, res: Response, next: NextFunction) {
   if (type !== "Bearer" || !token) {
     res.status(401).json({
       statusCode: 401,
-      message: "INVALID AUTHORIZATION TOKEN",
+      message: "Sessão inválida ou expirada. Faça login novamente.",
     });
     return;
   }
@@ -26,7 +26,7 @@ export function IsLogged(req: Request, res: Response, next: NextFunction) {
   } catch {
     res.status(401).json({
       statusCode: 401,
-      message: "INVALID AUTHORIZATION TOKEN",
+      message: "Sessão inválida ou expirada. Faça login novamente.",
     });
     return;
   }

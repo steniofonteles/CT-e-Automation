@@ -7,7 +7,8 @@ export class DocumentController {
   async crlv(req: Request, res: Response) {
     const file = req.file?.buffer;
     if (!file) {
-      throw new Error("FILE NOT FOUND");
+      res.status(400).json({ message: "Nenhum arquivo enviado" });
+      return;
     }
     const text = await ReaderCRLV(file);
     console.log(text);
@@ -17,7 +18,8 @@ export class DocumentController {
   async antt(req: Request, res: Response) {
     const file = req.file?.buffer;
     if (!file) {
-      throw new Error("FILE NOT FOUND");
+      res.status(400).json({ message: "Nenhum arquivo enviado" });
+      return;
     }
     const numero = await ReaderANTT(file);
     if (!numero) {
@@ -32,7 +34,8 @@ export class DocumentController {
   async cnh(req: Request, res: Response) {
     const file = req.file?.buffer;
     if (!file) {
-      throw new Error("FILE NOT FOUND");
+      res.status(400).json({ message: "Nenhum arquivo enviado" });
+      return;
     }
     const dados = await ReaderCNH(file);
     res.json(dados);
