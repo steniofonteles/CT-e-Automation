@@ -28,8 +28,8 @@ export async function ReaderANTT(file: Buffer): Promise<string | undefined> {
 
     if (!numero) return undefined;
 
-    // Mantém os zeros à esquerda, como no certificado.
-    return numero;
+    // Remove apenas o primeiro zero à esquerda (ex.: 049675499 -> 49675499).
+    return numero.replace(/^0/, "");
   } finally {
     await parser.destroy();
   }
