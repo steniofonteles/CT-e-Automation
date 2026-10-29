@@ -28,7 +28,8 @@ export async function ReaderANTT(file: Buffer): Promise<string | undefined> {
 
     if (!numero) return undefined;
 
-    return String(Number(numero));
+    // Mantém os zeros à esquerda, como no certificado.
+    return numero;
   } finally {
     await parser.destroy();
   }
