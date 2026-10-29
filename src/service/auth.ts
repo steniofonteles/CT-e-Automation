@@ -32,13 +32,8 @@ export class AuthService {
       throw new Error("E-mail ou senha inválidos");
     }
 
-    const token = JsonWebToken.sign(
-      {
-        email,
-      },
-      env.JWT_TOKEN,
-      { expiresIn: "1d" },
-    );
+    // Sem expiração: a sessão só termina quando o usuário clica em "Sair".
+    const token = JsonWebToken.sign({ email }, env.JWT_TOKEN);
 
     return token;
   }
