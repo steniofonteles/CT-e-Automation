@@ -9,8 +9,8 @@ function numeroDoTitulo(title: string): string | undefined {
 
 function numeroDoTexto(text: string): string | undefined {
   return (
-    text.match(/\b(?:ETC|TAC|CTC)\s*(\d{8,9})\b/i)?.[1] ??
-    text.match(/RNTRC\D{0,20}(\d{8,9})\b/i)?.[1]
+    text.match(/\b(?:ETC|TAC|CTC)\s*(\d{8,10})\b/i)?.[1] ??
+    text.match(/RNTRC\D{0,20}(\d{8,10})\b/i)?.[1]
   );
 }
 
