@@ -53,7 +53,8 @@ export async function ReaderCRLV(buffer: Buffer) {
 
   const regexs = [
     { name: "renavam", pattern: /^\d{11}$/m },
-    { name: "placa", pattern: /[A-Z]{3}\d[A-Z]\d{2}/ },
+    // Aceita o padrão antigo (ABC1234) e o Mercosul (ABC1D23).
+    { name: "placa", pattern: /\b[A-Z]{3}\d[A-Z0-9]\d{2}\b/ },
     {
       name: "cpfCnpj",
       pattern: /\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/,
@@ -87,6 +88,16 @@ export async function ReaderCRLV(buffer: Buffer) {
     campo: name,
     valor: pattern.exec(textWithSplit)?.[0],
   }));
+
+  // A UF correta vem na linha "CIDADE UF DD/MM/AAAA" (local e data de emissão);
+  // procurar qualquer sigla solta no texto pega falsos positivos como "ES".
+  const ufEmissao = textWithSplit.match(
+    /\b(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)\s+\d{2}\/\d{2}\/\d{4}/,
+  )?.[1];
+  const local = datas.find((data) => data.campo === "local");
+  if (ufEmissao && local) {
+    local.valor = ufEmissao;
+  }
 
   if (carroceria) {
     datas.push({ campo: "Carroceria", valor: carroceria });
