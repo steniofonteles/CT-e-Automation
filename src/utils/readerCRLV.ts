@@ -1,6 +1,14 @@
 import { PDFParse } from "pdf-parse";
 
 function extractPeso(texto: string): string {
+  // Linha "POTÊNCIA/CILINDRADA  PESO BRUTO TOTAL", ex.: "440CV/**** 23.0" ou
+  // "218CV/8270 23.0" (peso em toneladas).
+  const pbt = texto.match(/\d+CV\/(?:\*+|\d+)[ \t]+(\d+(?:\.\d+)?)[ \t]*$/im)?.[1];
+
+  if (pbt) {
+    return String(Math.round(Number(pbt) * 1000));
+  }
+
   const peso = texto.split("/****")[1]?.trim().split("\n")[0];
 
   if (peso) {
